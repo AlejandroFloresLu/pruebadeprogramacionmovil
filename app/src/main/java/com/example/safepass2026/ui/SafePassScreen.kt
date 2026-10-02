@@ -303,6 +303,7 @@ fun SafePassScreen(
                 // Evaluación exhaustiva de los estados de la UI
                 when (val estado = estadoActual) {
                     is RegistroState.Idle -> EstadoIdleCard()
+                    is RegistroState.Cargando -> EstadoCargandoCard()
                     is RegistroState.Success -> EstadoSuccessCard(estado = estado)
                     is RegistroState.Error -> EstadoErrorCard(estado = estado)
                 }
@@ -542,6 +543,33 @@ private fun FilaDetalle(etiqueta: String, valor: String) {
     ) {
         Text(text = etiqueta, fontSize = 13.sp, color = Color(0xFF64748B))
         Text(text = valor, fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFF0F172A))
+    }
+}
+
+@Composable
+private fun EstadoCargandoCard() {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F5F9)) 
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "⏳",
+                fontSize = 40.sp,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+            Text(
+                text = "Procesando registro...",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color(0xFF475569)
+            )
+        }
     }
 }
 

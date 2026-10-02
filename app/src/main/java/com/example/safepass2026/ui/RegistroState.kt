@@ -9,6 +9,8 @@ import com.example.safepass2026.data.Asistente
 sealed class RegistroState{
     /** Estado inicial pasivo: el usuario aún no interactúa con el botón de registro. */
     data object Idle:RegistroState()
+    
+    data object Cargando: RegistroState()
 
     /**
      * Estado exitoso: validación completada y reglas de negocio superadas.
