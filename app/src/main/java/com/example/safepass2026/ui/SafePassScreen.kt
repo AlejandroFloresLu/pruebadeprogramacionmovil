@@ -85,7 +85,7 @@ fun SafePassScreen(
 
                     // Uso de Higher-Order Function recibiendo una lambda para evaluar prioridad
                     val tienePrioridad = validarPrioridad(asistente) {
-                        it.tipoEntrada.equals("VIP", ignoreCase = true)
+                        it.tipoEntrada.equals("VIP", ignoreCase = true) || it.tipoEntrada.equals("Estudiante", ignoreCase = true)
                     }
 
                     RegistroState.Success(
