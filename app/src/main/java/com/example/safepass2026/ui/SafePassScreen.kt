@@ -58,7 +58,7 @@ import com.example.safepass2026.logic.validarPrioridad
 @Composable
 fun SafePassScreen(
     modifier: Modifier = Modifier,
-    onRegistrar: (String, String, String) -> RegistroState = { nombre, edadTexto, tipoEntrada ->
+    onRegistrar: (String, String, String, String) -> RegistroState = { nombre, edadTexto, tipoEntrada, correoTexto ->
         val nombreLimpio = nombre.trim()
         if (nombreLimpio.isEmpty()) {
             RegistroState.Error("El nombre del asistente no puede estar vacío.")
@@ -78,7 +78,8 @@ fun SafePassScreen(
                     val asistente = Asistente(
                         nombre = nombreLimpio,
                         edad = edadValida,
-                        tipoEntrada = tipoEntrada
+                        tipoEntrada = tipoEntrada,
+                        correo = correoTexto
                     ).apply {
                         // Confirmación idiomática de construcción del objeto inmutable
                     }
@@ -99,6 +100,7 @@ fun SafePassScreen(
     }
 ) {
     var nombreInput by remember { mutableStateOf("") }
+    var correoInput by remember { mutableStateOf("") }
     var edadInput by remember { mutableStateOf("") }
     var tipoEntradaSeleccionada by remember { mutableStateOf("General") }
     var estadoActual by remember { mutableStateOf<RegistroState>(RegistroState.Idle) }
@@ -186,6 +188,31 @@ fun SafePassScreen(
                                 unfocusedContainerColor = Color(0xFFF8FAFC)
                             )
                         )
+                        
+                        Spacer(modifier = Modifier.height(14.dp))
+
+                        // Campo de correo
+                        Text(
+                            text = "Correo electrónico",
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color(0xFF334155)
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        OutlinedTextField(
+                            value = correoInput,
+                            onValueChange = { correoInput = it },
+                            placeholder = { Text("Ej. alex@correo.com", color = Color(0xFF94A3B8)) },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(14.dp),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = Color(0xFF2563EB),
+                                unfocusedBorderColor = Color(0xFFE2E8F0),
+                                focusedContainerColor = Color(0xFFF8FAFC),
+                                unfocusedContainerColor = Color(0xFFF8FAFC)
+                            )
+                        )
 
                         Spacer(modifier = Modifier.height(14.dp))
 
@@ -256,7 +283,7 @@ fun SafePassScreen(
                         // Botón de validación
                         Button(
                             onClick = {
-                                estadoActual = onRegistrar(nombreInput, edadInput, tipoEntradaSeleccionada)
+                                estadoActual = onRegistrar(nombreInput, edadInput, tipoEntradaSeleccionada, correoInput)
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -278,6 +305,7 @@ fun SafePassScreen(
                             OutlinedButton(
                                 onClick = {
                                     nombreInput = ""
+                                    correoInput = ""
                                     edadInput = ""
                                     tipoEntradaSeleccionada = "General"
                                     estadoActual = RegistroState.Idle
