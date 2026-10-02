@@ -73,6 +73,8 @@ fun SafePassScreen(
                 if (!edadValida.esMayorDeEdad()) {
                     // Uso de la Extension Function de mayoría de edad
                     RegistroState.Error("Acceso denegado: El asistente debe ser mayor de 18 años.")
+                } else if (edadValida > 100) {
+                    RegistroState.Error("Edad irreal")
                 } else {
                     // Uso de Scope Function 'apply' para configurar el objeto Asistente
                     val asistente = Asistente(
